@@ -1,18 +1,41 @@
-(* Returns the index of the first occurence of x in l, or -1 if x is not in l
-   cpr is the comparator : the function that compares two elements of l and returns True if they're equal *)
-let rec index (x:'a) (l:'a list) (cpr:'a -> 'a -> bool) =
-  match l with
-  | [] -> -1
-  | elt :: tail -> if (cpr x elt) then 0 else
-                     let id = (index x tail cpr) in
-                     if (id==(-1)) then (-1) else (id+1);;
-
-(* Returns the assembly code to load the value in the stack at offset o into register r *)
-let load o r =;;
-
-(* Returns the assembly code to store the value in register r into the stack at offset o *)
-let store r o =;;
+type storage =
+   | Reg of int (* register number *)
+   | Stack of int (* offset in stack *)
 
 
 
-let rec f code =
+
+let rec f_rec d ast =
+   match ast with
+ | Not a -> f_rec d a
+ | Neg a -> f_rec d a
+ | Add (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | Sub (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | FNeg a -> f_rec d a
+ | FAdd (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | FSub (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | FMul (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | FDiv (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | Eq (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | LE (a1, a2) -> (f_rec d a1; f_rec d a2)
+ | If (a1, a2, a3) -> (f_rec d a1; f_rec d a2; f_rec d a3)
+ | App (a1, la2) -> (f_rec d a1; List.iter (f_rec d) a2)
+ | Get(a1, a2) -> (f_rec d a1; f_rec d a2)
+ | Put(a1, a2, a3) -> (f_rec d a1; f_rec d a2; f_rec d a3)
+ | Tuple(l) -> List.iter (f_rec d) a2
+ | Array(a1,a2) -> (f_rec d a1; f_rec d a2)
+ | LetTuple (l, a1, a2) -> (List.iter (f_rec d) a2;f_rec d a1; f_rec d a2)
+
+
+ | Let ((id,t), a1, a2) -> if (not (Hashtbl.mem !d id)) then
+                              let n = ((Hashtbl.length !d)+1)*4 in (Hashtbl.add !d id Stack(n))
+ | LetRec (fd, a) -> if (not (Hashtbl.mem !d id)) then
+                       let n = ((Hashtbl.length !d)+1)*4 in (Hashtbl.add !d id Stack(n))
+ | Var id -> if (not (Hashtbl.mem !d id)) then
+               let n = ((Hashtbl.length !d)+1)*4 in (Hashtbl.add !d id Stack(n))
+
+
+
+let f ast =
+   let d = ref (Hashtbl.create 100) in
+   f_rec d ast;;
