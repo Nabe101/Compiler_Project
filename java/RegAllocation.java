@@ -15,8 +15,10 @@ class Storage {
         switch(type) {
             case Stack:
                 System.out.println("in stack at offset "+value);
+                break;
             case Register:
                 System.out.println("in register R"+value);
+                break;
         }
     }
 }
