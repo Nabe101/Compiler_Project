@@ -8,7 +8,6 @@ class RegAllocVisitor implements ObjVisitor<RegAllocation> {
     RegAllocVisitor() {
         wip = new RegAllocation();
         funcName = null;
-        nextOffset = 4;
     }
 
     public RegAllocation visit(Unit e) { return wip; }
@@ -35,7 +34,7 @@ class RegAllocVisitor implements ObjVisitor<RegAllocation> {
     public RegAllocation visit(Tuple e) { return wip; }
 
     public RegAllocation visit(Let e) {
-        wip.put(funcName, e.id.toString(), new Storage(StorageType.Stack, nextOffset));
+        wip.put(funcName, e.id.toString());
         nextOffset+=4;
         return e.e2.accept(this);
     }
@@ -51,7 +50,7 @@ class RegAllocVisitor implements ObjVisitor<RegAllocation> {
         Id iden;
         while (it.hasNext()) {
             iden = it.next();
-            wip.put(funcName, iden.toString(), new Storage(StorageType.Stack, nextOffset));
+            wip.put(funcName, iden.toString());
             nextOffset+=4;
         }
         e.fd.e.accept(this);
@@ -66,7 +65,7 @@ class RegAllocVisitor implements ObjVisitor<RegAllocation> {
         Id iden;
         while (it.hasNext()) {
             iden = it.next();
-            wip.put(funcName, iden.toString(), new Storage(StorageType.Stack, nextOffset));
+            wip.put(funcName, iden.toString());
             nextOffset+=4;
         }
         return e.e2.accept(this);
