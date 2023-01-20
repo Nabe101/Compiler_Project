@@ -18,7 +18,7 @@ public class ArmGen {
 		
 		PrintWriter writer = new PrintWriter(this.nom, "UTF-8");
 		this.arm = this;
-		this.test();
+		this.test_var();
 		writer.println(this.txt);
 		writer.println("bl	_min_caml_exit");
 		writer.println(this.label);		
@@ -38,13 +38,22 @@ public class ArmGen {
 	String label;
 	public static ArmGen arm;	
 	
-	void test() {
-		this.newVar("10");
-		this.newVar("20");
+	void test_var() {
+		this.newVar("10");//tmp0
+		this.newVar("20");//tmp1
+		this.setVar("tmp0", "5");
+		this.newVar("30");//tmp2
 		this.getVar("tmp0", 0);
-		this.txt += "\nbl _min_caml_print_int\n";
+		this.getVar("tmp1", 1);
+		this.add();
+		print();
+		this.printSaut();
+
 	}
 	
+	void print() {
+		this.txt += "\nbl _min_caml_print_int\n";
+	}
 	void print(int i) {
 		this.txt += "mov r0, #"+ Integer.toString(i)
 				+ "\nbl _min_caml_print_int\n";
@@ -61,7 +70,7 @@ public class ArmGen {
 		this.txt +="	ldr	r0, ="+la+"\n"
 				+ "	bl _min_caml_print_string\n";
 	}
-	private void printSaut() {
+	void printSaut() {
 		this.txt += "bl _min_caml_print_newline\n";
 	}
 	
@@ -95,11 +104,13 @@ public class ArmGen {
 	//val est string pour + de généricité 
 	public void setVar(String id, String  val) {
 		Storage sto = this.reg.get(stack.peek().toString(), id);
+		System.out.print("la valeur de " + id + "est " + sto.type + "\n");
 		if(sto.type==StorageType.Register) {
 			this.txt += "mov r" + Integer.toString(sto.value) + ", #" + val + "\n";
 		}
 		else {
-			this.txt += "STR r"+Integer.toString(sto.value)+", [sp,#"+ val +"]\n";
+			this.txt += "mov r0, #" + val;
+			this.txt += "\nSTR r0, [sp,#"+ sto.value +"]\n";
 		}
 	}
 	
@@ -108,7 +119,7 @@ public class ArmGen {
 		this.numVariable++;
 		this.reg.put(this.stack.peek().toString(), varName);
 		Storage str = this.reg.get(this.stack.peek().toString(), varName);
-		System.out.print("\n" + str.offset + "\n");
+		System.out.print("la valeur de " + val + "est " + str.value + "\n");
 		this.txt += "mov r0, #" + val
 				 + "\nSTR r0, [sp,#"+ Integer.toString(str.value)+"]\n";
 		return null;
@@ -121,6 +132,10 @@ public class ArmGen {
 	
 	public void not() {
 		this.txt += "mvn r0, r0\n";
+	}
+	
+	public void add() {
+		this.txt += "add r0, r0, r1";
 	}
 	
 	
