@@ -3,11 +3,11 @@ import java.util.Random;
 
 public class AlphaVisitor implements Visitor {
 	HashMap<String, String> scope;
-	Random prng;
+	int nb;
 	
 	public AlphaVisitor() {
-		prng = new Random();
-		scope = new HashMap<String, String>();
+		
+		scope = new HashMap();
 	}
 	
 	public void visit(Unit e) {
@@ -72,16 +72,13 @@ public class AlphaVisitor implements Visitor {
 		HashMap<String, String> tmp = null;
 		boolean var_exists = scope.containsKey(e.id.id);
 		if (var_exists) {
-			tmp = new HashMap<String, String>(); // alloue que si une var existe deja pour restaurer l'etat
+			tmp = new HashMap(); // alloue que si une var existe deja pour restaurer l'etat
 			tmp.putAll(scope);
 		} else {
 			scope.put(e.id.id, e.id.id);
 		}
 		e.e1.accept(this);
-		String new_var = "x" + String.valueOf(prng.nextInt(Integer.MAX_VALUE));
-		while (scope.containsKey(new_var) && scope.get(new_var) != "-1") {
-			new_var = "x" + String.valueOf(prng.nextInt(Integer.MAX_VALUE));
-		}
+		String new_var = "alphaconv" + String.valueOf(nb++);
 		scope.put(e.id.id, new_var);
 		e.id.id = new_var;
 		scope.put(new_var, "-1"); // pb : inclus les vars libres
@@ -99,16 +96,6 @@ public class AlphaVisitor implements Visitor {
     	} else { // variable libre
     		System.err.println("Unbound value " + e.id.id);
     		System.exit(-1);
-    		/*String new_var;
-    		if(scope.containsValue(e.id.id)) {
-    			new_var = "x" + String.valueOf(prng.nextInt(Integer.MAX_VALUE));
-    			while (scope.containsKey(new_var)) {
-    				new_var = "x" + String.valueOf(prng.nextInt(Integer.MAX_VALUE));
-    			}
-    		} else {
-    			new_var = e.id.id;
-    		}
-    		scope.put(new_var, e.id.id);*/
     	}
     }
 	public void visit(LetRec e) {
