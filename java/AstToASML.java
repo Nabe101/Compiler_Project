@@ -7,6 +7,15 @@ public class AstToASML implements ObjVisitor<ASML> {
         return new ASML_Main((ASML_Body) a);
     }
 
+    protected ASML_Body bodify(Exp e) {
+        ASML a = e.accept(this);
+        try {
+            return (ASML_Body) a;
+        } catch (Exception ex) {
+            return new ASML_End((ASML_Expr) a);
+        }
+    }
+
     public ASML visit(Let e) {
         Id name = e.id;
         ASML_Expr expr = (ASML_Expr) e.e1.accept(this);
@@ -32,16 +41,16 @@ public class AstToASML implements ObjVisitor<ASML> {
             // On la compare avec 0
             return new ASML_IfEq((ASML_Expr) new ASML_Var(((Var) bool).id),
                                  (ASML_Expr) new ASML_Int(0),
-                                 (ASML_Body) e.e2.accept(this),
-                                 (ASML_Body) e.e3.accept(this));
+                                 bodify(e.e2),
+                                 bodify(e.e3));
         }
         while (bool instanceof Not) {
             bool = ((Not) bool).e;
             inv = !inv;
         } // Si le booléen est inversé, on intervertit le then et le else.
         ASML_Body thenn, ellse;
-        if (inv) { thenn = (ASML_Body) e.e3.accept(this); ellse = (ASML_Body) e.e2.accept(this); }
-        else     { thenn = (ASML_Body) e.e2.accept(this); ellse = (ASML_Body) e.e3.accept(this); }
+        if (inv) { thenn = bodify(e.e3); ellse = bodify(e.e2); }
+        else     { thenn = bodify(e.e2); ellse = bodify(e.e3); }
 
         if        (bool instanceof Eq) {
             return new ASML_IfEq((ASML_Expr) ((Eq) bool).e1.accept(this),

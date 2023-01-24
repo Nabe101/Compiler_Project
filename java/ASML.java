@@ -1,5 +1,3 @@
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.List;
@@ -142,7 +140,7 @@ class ASML_Let extends ASML_Body {
 class ASML_End extends ASML_Body {
     ASML_Expr expr;
 
-    ASML_End(ASML_Expr e) { expr = e; }
+    ASML_End(ASML_Expr a) { expr = a; }
 
     void print(PrintStream out, int indent) {
         indent(out, indent);
@@ -484,9 +482,11 @@ class ASML_IfEq extends ASML_Expr {
         e2.print(out, indent);
         out.println(") then (");
         thn.print(out, indent+1);
+        out.println();
         indent(out, indent);
         out.println(") else (");
         els.print(out, indent+1);
+        out.println();
         indent(out, indent);
         out.println(")");
     }
@@ -513,9 +513,11 @@ class ASML_IfLE extends ASML_Expr {
         e2.print(out, indent);
         out.println(") then (");
         thn.print(out, indent+1);
+        out.println();
         indent(out, indent);
         out.println(") else (");
         els.print(out, indent+1);
+        out.println();
         indent(out, indent);
         out.println(")");
     }
@@ -542,9 +544,11 @@ class ASML_IfGE extends ASML_Expr {
         e2.print(out, indent);
         out.println(") then (");
         thn.print(out, indent+1);
+        out.println();
         indent(out, indent);
         out.println(") else (");
         els.print(out, indent+1);
+        out.println();
         indent(out, indent);
         out.println(")");
     }
