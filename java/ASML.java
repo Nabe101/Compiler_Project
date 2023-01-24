@@ -203,6 +203,24 @@ class ASML_Int extends ASML_Expr {
     }
 }
 
+class ASML_Var extends ASML_Expr {
+    Id name;
+
+    ASML_Var(Id i) { name = i; }
+
+    void print(PrintStream out, int indent) {
+        out.print(name.toString());
+    }
+
+    <E> E accept(ASML_ObjVisitor<E> v) {
+        return v.visit(this);
+    }
+
+    void accept(ASML_Visitor v) {
+        v.visit(this);
+    }
+}
+
 class ASML_New extends ASML_Expr {
     Id i;
 
@@ -258,12 +276,58 @@ class ASML_Label extends ASML_Expr {
 }
 
 class ASML_Neg extends ASML_Expr {
-    Id i;
+    ASML_Expr a;
 
-    ASML_Neg(Id id) { i = id; }
+    ASML_Neg(ASML_Expr aa) { a = aa; }
 
     void print(PrintStream out, int indent) {
-        out.print("neg "+i.toString());
+        out.print("neg (");
+        a.print(out, indent);
+        out.print(")");
+    }
+
+    <E> E accept(ASML_ObjVisitor<E> v) {
+        return v.visit(this);
+    }
+
+    void accept(ASML_Visitor v) {
+        v.visit(this);
+    }
+}
+
+class ASML_Add extends ASML_Expr {
+    ASML_Expr a1, a2;
+
+    ASML_Add(ASML_Expr aa1, ASML_Expr aa2) { a1 = aa1; a2 = aa2; }
+
+    void print(PrintStream out, int indent) {
+        out.print("add (");
+        a1.print(out, indent);
+        out.print(") (");
+        a2.print(out, indent);
+        out.print(")");
+    }
+
+    <E> E accept(ASML_ObjVisitor<E> v) {
+        return v.visit(this);
+    }
+
+    void accept(ASML_Visitor v) {
+        v.visit(this);
+    }
+}
+
+class ASML_Sub extends ASML_Expr {
+    ASML_Expr a1, a2;
+
+    ASML_Sub(ASML_Expr aa1, ASML_Expr aa2) { a1 = aa1; a2 = aa2; }
+
+    void print(PrintStream out, int indent) {
+        out.print("sub (");
+        a1.print(out, indent);
+        out.print(") (");
+        a2.print(out, indent);
+        out.print(")");
     }
 
     <E> E accept(ASML_ObjVisitor<E> v) {
@@ -354,46 +418,6 @@ class ASML_Fdiv extends ASML_Expr {
 
     void print(PrintStream out, int indent) {
         out.print("fdiv "+i1.toString()+" "+i2.toString());
-    }
-
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
-}
-
-class ASML_Add extends ASML_Expr {
-    Id i1;
-    ASML_IdOrIm i2;
-
-    ASML_Add(Id ii1, ASML_IdOrIm ii2) { i1 = ii1; i2 = ii2; }
-
-    void print(PrintStream out, int indent) {
-        out.print("add "+i1.toString()+" ");
-        i2.print(out, indent);
-    }
-
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
-}
-
-class ASML_Sub extends ASML_Expr {
-    Id i1;
-    ASML_IdOrIm i2;
-
-    ASML_Sub(Id ii1, ASML_IdOrIm ii2) { i1 = ii1; i2 = ii2; }
-
-    void print(PrintStream out, int indent) {
-        out.print("sub "+i1.toString()+" ");
-        i2.print(out, indent);
     }
 
     <E> E accept(ASML_ObjVisitor<E> v) {

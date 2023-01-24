@@ -11,6 +11,7 @@ public interface ASML_Visitor {
     // Expressions
     void visit(ASML_Nop a);
     void visit(ASML_Int a);
+    void visit(ASML_Var a);
     void visit(ASML_New a);
     void visit(ASML_Ident a);
     void visit(ASML_Label a);

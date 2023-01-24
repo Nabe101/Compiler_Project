@@ -12,8 +12,10 @@ public class AstToASML implements ObjVisitor<ASML> {
         }
     }
     public ASML visit(Int e) { return new ASML_Int(e.i); }
-    public ASML visit(Neg e) { return new ASML_Neg(((Var) e.e).id); }
+    public ASML visit(Var e) { return new ASML_Var(e.id); }
+    public ASML visit(Neg e) { return new ASML_Neg((ASML_Expr) e.e.accept(this)); }
     public ASML visit(Add e) {
+        return new ASML_Add((ASML_Expr) e.e1.accept(this), (ASML_Expr) e.e2.accept(this)); /*
         Var o1 = (Var) e.e1;
         Exp o2 = e.e2;
         if (o2 instanceof Var) {
@@ -22,9 +24,10 @@ public class AstToASML implements ObjVisitor<ASML> {
             return new ASML_Add(o1.id, new ASML_Im(((Int) o2).i));
         } else {
             return null;
-        }
+        }*/
     }
     public ASML visit(Sub e) {
+        return new ASML_Sub((ASML_Expr) e.e1.accept(this), (ASML_Expr) e.e2.accept(this)); /*
         Var o1 = (Var) e.e1;
         Exp o2 = e.e2;
         if (o2 instanceof Var) {
@@ -33,7 +36,7 @@ public class AstToASML implements ObjVisitor<ASML> {
             return new ASML_Sub(o1.id, new ASML_Im(((Int) o2).i));
         } else {
             return null;
-        }
+        }*/
     }
     
 
@@ -72,7 +75,6 @@ public class AstToASML implements ObjVisitor<ASML> {
     public ASML visit(FDiv e) { System.err.println("Oops."); return null; }
     public ASML visit(Eq e) { System.err.println("Oops."); return null; }
     public ASML visit(LE e) { System.err.println("Oops."); return null; }
-    public ASML visit(Var e) { System.err.println("Oops."); return null; }
 }
 
 

@@ -11,6 +11,7 @@ public interface ASML_ObjVisitor<E> {
     // Expressions
     E visit(ASML_Nop a);
     E visit(ASML_Int a);
+    E visit(ASML_Var a);
     E visit(ASML_New a);
     E visit(ASML_Ident a);
     E visit(ASML_Label a);
