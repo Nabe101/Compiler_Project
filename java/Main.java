@@ -21,12 +21,22 @@ public class Main {
 
       ObjVisitor<Integer> v = new HeightVisitor();
       height = expression.accept(v);
-      System.out.println("using HeightVisitor: " + height); /*/
+      System.out.println("using HeightVisitor: " + height);
 
       // Printing register allocation
       RegAllocVisitor visit = new RegAllocVisitor();
       RegAllocation regAll = expression.accept(visit);
-      regAll.print();
+      regAll.print(); /*/
+
+      Id x = new Id("x"); Id y = new Id("y"); Id z = new Id("z"); Id w = new Id("w"); 
+      Exp e = new Let(x, new TInt(), new Int(10),                  // let x:int = 10 in
+              new Let(y, new TInt(), new Int(5),                   // let y:int = 5 in
+              new Let(z, new TInt(), new Add(new Var(x), new Var(y)), // let z:int = x+y
+              new Let(w, new TInt(), new Int(8),                   // let w:int = 8 in
+              new Sub(new Var(z), new Var(w))))));                    // z-w
+
+      ASML a = e.accept(new AstToASML());
+      a.print("out.asml");
 
     } catch (Exception e) {
       e.printStackTrace();
