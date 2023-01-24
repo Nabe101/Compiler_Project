@@ -1,6 +1,6 @@
 import java.util.*;
 
-class RegAllocVisitor implements ObjVisitor<RegAllocation> {
+class RegAllocVisitor implements ASML_ObjVisitor<RegAllocation> {
     RegAllocation wip;
     String funcName;
     int nextOffset;
@@ -9,67 +9,66 @@ class RegAllocVisitor implements ObjVisitor<RegAllocation> {
         wip = new RegAllocation();
         funcName = null;
     }
-
-    public RegAllocation visit(Unit e) { return wip; }
-    public RegAllocation visit(Bool e) { return wip; }
-    public RegAllocation visit(Int e) { return wip; }
-    public RegAllocation visit(Float e) { return wip; }
-    public RegAllocation visit(Not e) { return wip; }
-    public RegAllocation visit(Neg e) { return wip; }
-    public RegAllocation visit(Add e) { return wip; }
-    public RegAllocation visit(Sub e) { return wip; }
-    public RegAllocation visit(FNeg e) { return wip; }
-    public RegAllocation visit(FAdd e) { return wip; }
-    public RegAllocation visit(FSub e) { return wip; }
-    public RegAllocation visit(FMul e) { return wip; }
-    public RegAllocation visit(FDiv e) { return wip; }
-    public RegAllocation visit(Eq e) { return wip; }
-    public RegAllocation visit(LE e) { return wip; }
-    public RegAllocation visit(If e) { return wip; }
-    public RegAllocation visit(Array e) { return wip; }
-    public RegAllocation visit(Get e) { return wip; }
-    public RegAllocation visit(Put e) { return wip; }
-    public RegAllocation visit(Var e) { return wip; }
-    public RegAllocation visit(App e) { return wip; }
-    public RegAllocation visit(Tuple e) { return wip; }
-
-    public RegAllocation visit(Let e) {
-        wip.put(funcName, e.id.toString());
-        nextOffset+=4;
-        return e.e2.accept(this);
-    }
-
-    public RegAllocation visit(LetRec e){
+    // Function definitions
+    public RegAllocation visit(ASML_FloatLabel a) { return a.in.accept(this); }
+    public RegAllocation visit(ASML_Fun a) {
         String bakString = funcName;
-        funcName = e.fd.id.toString();
+        funcName = a.label;
         int bakInt = nextOffset;
         nextOffset = 4;
 
         wip.newFunc(funcName);
-        Iterator<Id> it = e.fd.args.iterator();
+        Iterator<Id> it = a.args.iterator();
         Id iden;
         while (it.hasNext()) {
             iden = it.next();
             wip.put(funcName, iden.toString());
             nextOffset+=4;
         }
-        e.fd.e.accept(this);
+        a.body.accept(this);
 
         funcName = bakString;
         nextOffset = bakInt;
-        return e.e.accept(this);
+        return a.in.accept(this);
     }
+    public RegAllocation visit(ASML_Main a) { return a.body.accept(this); }
 
-    public RegAllocation visit(LetTuple e){
-        Iterator<Id> it = e.ids.iterator();
-        Id iden;
-        while (it.hasNext()) {
-            iden = it.next();
-            wip.put(funcName, iden.toString());
-            nextOffset+=4;
-        }
-        return e.e2.accept(this);
+    // Function bodies
+    public RegAllocation visit(ASML_Let a) {
+        wip.put(funcName, a.ident.toString());
+        nextOffset+=4;
+        return a.in.accept(this);
     }
+    public RegAllocation visit(ASML_End a) { return wip; }
+
+    // Expressions
+    public RegAllocation visit(ASML_Nop a) { return wip; }
+    public RegAllocation visit(ASML_Int a) { return wip; }
+    public RegAllocation visit(ASML_Var a) { return wip; }
+    public RegAllocation visit(ASML_New a) { return wip; }
+    public RegAllocation visit(ASML_Ident a) { return wip; }
+    public RegAllocation visit(ASML_Label a) { return wip; }
+    public RegAllocation visit(ASML_Neg a) { return wip; }
+    public RegAllocation visit(ASML_Fneg a) { return wip; }
+    public RegAllocation visit(ASML_Fadd a) { return wip; }
+    public RegAllocation visit(ASML_Fsub a) { return wip; }
+    public RegAllocation visit(ASML_Fmul a) { return wip; }
+    public RegAllocation visit(ASML_Fdiv a) { return wip; }
+    public RegAllocation visit(ASML_Add a) { return wip; }
+    public RegAllocation visit(ASML_Sub a) { return wip; }
+    public RegAllocation visit(ASML_Load a) { return wip; }
+    public RegAllocation visit(ASML_Store a) { return wip; }
+    public RegAllocation visit(ASML_IfEq a) { return wip; }
+    public RegAllocation visit(ASML_IfLE a) { return wip; }
+    public RegAllocation visit(ASML_IfGE a) { return wip; }
+    public RegAllocation visit(ASML_IfFEq a) { return wip; }
+    public RegAllocation visit(ASML_IfFLE a) { return wip; }
+    public RegAllocation visit(ASML_Call a) { return wip; }
+    public RegAllocation visit(ASML_CallCls a) { return wip; }
+
+    // Identifier or immediate value (used as the second part of some expressions)
+    public RegAllocation visit(ASML_Id a) { return wip; }
+    public RegAllocation visit(ASML_Im a) { return wip; }
 }
 
 

@@ -5,11 +5,11 @@ import java.util.*;
 public class Main {
   static public void main(String argv[]) {    
     try {
-      Parser p = new Parser(new Lexer(new FileReader(argv[0])));
+      /*/ Parser p = new Parser(new Lexer(new FileReader(argv[0])));
       Exp expression = (Exp) p.parse().value;      
       assert (expression != null);
 
-      /*/ Printing AST
+      Printing AST
       System.out.println("------ AST ------");
       expression.accept(new PrintVisitor());
       System.out.println(); // 
@@ -21,12 +21,7 @@ public class Main {
 
       ObjVisitor<Integer> v = new HeightVisitor();
       height = expression.accept(v);
-      System.out.println("using HeightVisitor: " + height);
-
-      // Printing register allocation
-      RegAllocVisitor visit = new RegAllocVisitor();
-      RegAllocation regAll = expression.accept(visit);
-      regAll.print(); /*/
+      System.out.println("using HeightVisitor: " + height); /*/
 
       Id x = new Id("x"); Id y = new Id("y"); Id z = new Id("z"); Id w = new Id("w"); 
       Exp e = new Let(x, new TInt(), new Int(10),                  // let x:int = 10 in
@@ -37,6 +32,11 @@ public class Main {
 
       ASML a = e.accept(new AstToASML());
       a.print("out.asml");
+
+      // Printing register allocation
+      RegAllocVisitor visit = new RegAllocVisitor();
+      RegAllocation regAll = a.accept(visit);
+      regAll.print();
 
     } catch (Exception e) {
       e.printStackTrace();

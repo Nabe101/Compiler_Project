@@ -5,17 +5,18 @@ import java.util.Hashtable;
 class RegAllocation {
     Hashtable<String,Hashtable<String,Storage>> memory;
     int offset;
+    final static String main_name = "_";
 
     RegAllocation() {
         memory = new Hashtable<>(50);
         offset=0;
-        newFunc("()");
+        newFunc(main_name);
         
     }
 
-    // Call to specify the storage of variable varName in function funcName. For the main, funcName = "()" or null
+    // Call to specify the storage of variable varName in function funcName. For the main, funcName = main_name or null
     void put(String funcName, String varName) {
-        if (funcName==null) { funcName = "()"; }
+        if (funcName==null) { funcName = main_name; }
         Hashtable<String,Storage> h = memory.get(funcName);
         Storage str = new Storage(StorageType.Stack);
         h.put(varName, str);
@@ -26,7 +27,7 @@ class RegAllocation {
     }
 
     Storage get(String funcName, String varName) {
-        if (funcName==null) { funcName = "()"; }
+        if (funcName==null) { funcName = main_name; }
         Hashtable<String,Storage> h = memory.get(funcName);
         if (h!=null) {
             return h.get(varName);
