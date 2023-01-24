@@ -7,7 +7,7 @@ public class ArmGen {
 	public ArmGen(String nom, RegAllocation reg) throws FileNotFoundException, UnsupportedEncodingException {
 		this.nom = "../ARM/"+nom.substring(0, nom.length()) + ".s" ;
 		this.reg=reg;
-		this.stack= new Stack();
+		this.stack= new Stack<String>();
 		this.stack.push("()");
 		this.numLabel=0;
 		this.txt = "	.text\n"
@@ -17,7 +17,7 @@ public class ArmGen {
 		this.numVariable = 0;
 		
 		PrintWriter writer = new PrintWriter(this.nom, "UTF-8");
-		this.arm = this;
+		ArmGen.arm = this;
 		this.test_var();
 		writer.println(this.txt);
 		writer.println("bl	_min_caml_exit");
@@ -30,24 +30,15 @@ public class ArmGen {
 	}
 	
 	String nom;
-	Stack stack;
+	Stack<String> stack;//pile d'appel
 	RegAllocation reg;
 	int numLabel; //label counter
 	int numVariable;
 	String txt;
-	String label;
+	String label;//on met tout les label a la fin
 	public static ArmGen arm;	
 	
 	void test_var() {
-		this.newVar("10");//tmp0
-		this.newVar("20");//tmp1
-		this.setVar("tmp0", "5");
-		this.newVar("30");//tmp2
-		this.getVar("tmp0", 0);
-		this.getVar("tmp1", 1);
-		this.add();
-		print();
-		this.printSaut();
 
 	}
 	
@@ -98,44 +89,37 @@ public class ArmGen {
 		else {
 			this.txt += "LDR r"+Integer.toString(i)+", [sp,#"+ Integer.toString(sto.value) +"]\n";
 		}
-		
 	}
 	
-	//val est string pour + de généricité 
-	public void setVar(String id, String  val) {
+	public void setVar(String id, String  reg) {
 		Storage sto = this.reg.get(stack.peek().toString(), id);
-		System.out.print("la valeur de " + id + "est " + sto.type + "\n");
-		if(sto.type==StorageType.Register) {
-			this.txt += "mov r" + Integer.toString(sto.value) + ", #" + val + "\n";
-		}
-		else {
-			this.txt += "mov r0, #" + val;
-			this.txt += "\nSTR r0, [sp,#"+ sto.value +"]\n";
-		}
+		this.txt += "STR r" + reg + ", [sp,#"+ sto.value +"]\n";
 	}
 	
-	public String newVar(String val) {
+	//creer une var avec r1. renvoi le nom de cette variable
+	public String newVar() {
 		String varName = "tmp" + Integer.toString(this.numVariable);
 		this.numVariable++;
 		this.reg.put(this.stack.peek().toString(), varName);
 		Storage str = this.reg.get(this.stack.peek().toString(), varName);
-		System.out.print("la valeur de " + val + "est " + str.value + "\n");
-		this.txt += "mov r0, #" + val
-				 + "\nSTR r0, [sp,#"+ Integer.toString(str.value)+"]\n";
-		return null;
+		
+		this.txt += "STR r1, [sp,#"+ Integer.toString(str.value)+"]\n";
+		return varName;
 	}
 	
-	
+	public void Int(int i) {
+		this.txt += "mov r1, #" + Integer.toString(i) + "\n";
+	}
 	public void neg() {
-		this.txt += "neg r0, r0\n";
+		this.txt += "neg r1, r1\n";
 	}
 	
 	public void not() {
-		this.txt += "mvn r0, r0\n";
+		this.txt += "mvn r1, r1\n";
 	}
 	
 	public void add() {
-		this.txt += "add r0, r0, r1";
+		this.txt += "add r1, r1, r2\n";
 	}
 	
 	
