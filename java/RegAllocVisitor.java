@@ -42,28 +42,28 @@ class RegAllocVisitor implements ASML_ObjVisitor<RegAllocation> {
     public RegAllocation visit(ASML_End a) { return wip; }
 
     // Expressions
-    public RegAllocation visit(ASML_Nop a) { return wip; }
-    public RegAllocation visit(ASML_Int a) { return wip; }
-    public RegAllocation visit(ASML_Var a) { return wip; }
-    public RegAllocation visit(ASML_New a) { return wip; }
-    public RegAllocation visit(ASML_Ident a) { return wip; }
-    public RegAllocation visit(ASML_Label a) { return wip; }
-    public RegAllocation visit(ASML_Neg a) { return wip; }
-    public RegAllocation visit(ASML_Fneg a) { return wip; }
-    public RegAllocation visit(ASML_Fadd a) { return wip; }
-    public RegAllocation visit(ASML_Fsub a) { return wip; }
-    public RegAllocation visit(ASML_Fmul a) { return wip; }
-    public RegAllocation visit(ASML_Fdiv a) { return wip; }
-    public RegAllocation visit(ASML_Add a) { return wip; }
-    public RegAllocation visit(ASML_Sub a) { return wip; }
-    public RegAllocation visit(ASML_Load a) { return wip; }
-    public RegAllocation visit(ASML_Store a) { return wip; }
-    public RegAllocation visit(ASML_IfEq a) { return wip; }
-    public RegAllocation visit(ASML_IfLE a) { return wip; }
-    public RegAllocation visit(ASML_IfGE a) { return wip; }
-    public RegAllocation visit(ASML_IfFEq a) { return wip; }
-    public RegAllocation visit(ASML_IfFLE a) { return wip; }
-    public RegAllocation visit(ASML_Call a) { return wip; }
+    public RegAllocation visit(ASML_Nop a)     { return wip; }
+    public RegAllocation visit(ASML_Int a)     { return wip; }
+    public RegAllocation visit(ASML_Var a)     { return wip; }
+    public RegAllocation visit(ASML_New a)     { return wip; }
+    public RegAllocation visit(ASML_Ident a)   { return wip; }
+    public RegAllocation visit(ASML_Label a)   { return wip; }
+    public RegAllocation visit(ASML_Neg a)     { return wip; }
+    public RegAllocation visit(ASML_Fneg a)    { return wip; }
+    public RegAllocation visit(ASML_Fadd a)    { return wip; }
+    public RegAllocation visit(ASML_Fsub a)    { return wip; }
+    public RegAllocation visit(ASML_Fmul a)    { return wip; }
+    public RegAllocation visit(ASML_Fdiv a)    { return wip; }
+    public RegAllocation visit(ASML_Add a)     { return wip; }
+    public RegAllocation visit(ASML_Sub a)     { return wip; }
+    public RegAllocation visit(ASML_Load a)    { return wip; }
+    public RegAllocation visit(ASML_Store a)   { return wip; }
+    public RegAllocation visit(ASML_IfEq a)    { return wip; }
+    public RegAllocation visit(ASML_IfLE a)    { return wip; }
+    public RegAllocation visit(ASML_IfGE a)    { return wip; }
+    public RegAllocation visit(ASML_IfFEq a)   { return wip; }
+    public RegAllocation visit(ASML_IfFLE a)   { return wip; }
+    public RegAllocation visit(ASML_Call a)    { return wip; }
     public RegAllocation visit(ASML_CallCls a) { return wip; }
 
     // Identifier or immediate value (used as the second part of some expressions)
