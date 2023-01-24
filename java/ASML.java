@@ -19,6 +19,10 @@ abstract class ASML {
     void indent(PrintStream out, int indent) {
         for(int i=0; i<indent; i++) { out.print("\t"); }
     }
+
+    abstract <E> E accept(ASML_ObjVisitor<E> v);
+
+    abstract void accept(ASML_Visitor v);
 }
 
 

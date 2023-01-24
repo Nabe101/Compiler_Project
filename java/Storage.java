@@ -6,7 +6,7 @@ class Storage {
 
     Storage(StorageType st)  {
         type = st;
-        this.offset += 4;
+        Storage.offset += 4;
         this.value = offset;
     }
 
