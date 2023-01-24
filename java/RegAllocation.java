@@ -1,40 +1,23 @@
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
-enum StorageType { Stack, Register }
-
-class Storage {
-    StorageType type;
-    int value; // Offset in stack, or Register number
-
-    Storage(StorageType st, int v)  {
-        type = st;
-        value = v;
-    }
-
-    void print() {
-        switch(type) {
-            case Stack:
-                System.out.println("in stack at offset "+value);
-                break;
-            case Register:
-                System.out.println("in register R"+value);
-                break;
-        }
-    }
-}
 
 class RegAllocation {
     Hashtable<String,Hashtable<String,Storage>> memory;
+    int offset;
 
     RegAllocation() {
         memory = new Hashtable<>(50);
+        offset=0;
         newFunc("()");
+        
     }
 
     // Call to specify the storage of variable varName in function funcName. For the main, funcName = "()" or null
-    void put(String funcName, String varName, Storage str) {
+    void put(String funcName, String varName) {
         if (funcName==null) { funcName = "()"; }
         Hashtable<String,Storage> h = memory.get(funcName);
+        Storage str = new Storage(StorageType.Stack);
         h.put(varName, str);
     }
 
