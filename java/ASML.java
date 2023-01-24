@@ -92,7 +92,7 @@ class ASML_Main extends ASML_Fundefs {
     ASML_Main(ASML_Body b) { body = b; }
 
     void print(PrintStream out, int indent) {
-        out.print("let _ =");
+        out.println("let _ =");
         body.print(out, indent+1);
     }
 
@@ -472,20 +472,23 @@ class ASML_Store extends ASML_Expr {
 }
 
 class ASML_IfEq extends ASML_Expr {
-    Id i;
-    ASML_IdOrIm val;
+    ASML_Expr e1, e2;
     ASML_Body thn, els;
 
-    ASML_IfEq(Id ii, ASML_IdOrIm v, ASML_Body t, ASML_Body e) { i = ii; val = v; thn = t; els = e; }
+    ASML_IfEq(ASML_Expr ee1, ASML_Expr ee2, ASML_Body t, ASML_Body e) { e1 = ee1; e2 = ee2; thn = t; els = e; }
 
     void print(PrintStream out, int indent) {
-        out.print("if "+i.toString()+" = ");
-        val.print(out, indent);
-        out.println(" then (");
+        out.print("if (");
+        e1.print(out, indent);
+        out.print(" == ");
+        e2.print(out, indent);
+        out.println(") then (");
         thn.print(out, indent+1);
         indent(out, indent);
         out.println(") else (");
         els.print(out, indent+1);
+        indent(out, indent);
+        out.println(")");
     }
 
     <E> E accept(ASML_ObjVisitor<E> v) {
@@ -498,20 +501,23 @@ class ASML_IfEq extends ASML_Expr {
 }
 
 class ASML_IfLE extends ASML_Expr {
-    Id i;
-    ASML_IdOrIm val;
+    ASML_Expr e1, e2;
     ASML_Body thn, els;
 
-    ASML_IfLE(Id ii, ASML_IdOrIm v, ASML_Body t, ASML_Body e) { i = ii; val = v; thn = t; els = e; }
+    ASML_IfLE(ASML_Expr ee1, ASML_Expr ee2, ASML_Body t, ASML_Body e) { e1 = ee1; e2 = ee2; thn = t; els = e; }
 
     void print(PrintStream out, int indent) {
-        out.print("if "+i.toString()+" <= ");
-        val.print(out, indent);
-        out.println(" then (");
+        out.print("if (");
+        e1.print(out, indent);
+        out.print(" <= ");
+        e2.print(out, indent);
+        out.println(") then (");
         thn.print(out, indent+1);
         indent(out, indent);
         out.println(") else (");
         els.print(out, indent+1);
+        indent(out, indent);
+        out.println(")");
     }
 
     <E> E accept(ASML_ObjVisitor<E> v) {
@@ -524,20 +530,23 @@ class ASML_IfLE extends ASML_Expr {
 }
 
 class ASML_IfGE extends ASML_Expr {
-    Id i;
-    ASML_IdOrIm val;
+    ASML_Expr e1, e2;
     ASML_Body thn, els;
 
-    ASML_IfGE(Id ii, ASML_IdOrIm v, ASML_Body t, ASML_Body e) { i = ii; val = v; thn = t; els = e; }
+    ASML_IfGE(ASML_Expr ee1, ASML_Expr ee2, ASML_Body t, ASML_Body e) { e1 = ee1; e2 = ee2; thn = t; els = e; }
 
     void print(PrintStream out, int indent) {
-        out.print("if "+i.toString()+" >= ");
-        val.print(out, indent);
-        out.println(" then (");
+        out.print("if (");
+        e1.print(out, indent);
+        out.print(" >= ");
+        e2.print(out, indent);
+        out.println(") then (");
         thn.print(out, indent+1);
         indent(out, indent);
         out.println(") else (");
         els.print(out, indent+1);
+        indent(out, indent);
+        out.println(")");
     }
 
     <E> E accept(ASML_ObjVisitor<E> v) {

@@ -1,6 +1,12 @@
 
 public class AstToASML implements ObjVisitor<ASML> {
     AstToASML() {}
+
+    public ASML convert(Exp e) {
+        ASML a = e.accept(this);
+        return new ASML_Main((ASML_Body) a);
+    }
+
     public ASML visit(Let e) {
         Id name = e.id;
         ASML_Expr expr = (ASML_Expr) e.e1.accept(this);
@@ -13,6 +19,42 @@ public class AstToASML implements ObjVisitor<ASML> {
     }
     public ASML visit(Int e) { return new ASML_Int(e.i); }
     public ASML visit(Var e) { return new ASML_Var(e.id); }
+    public ASML visit(Bool e) {
+        int v;
+        if (e.b) { v = 0; }
+        else { v = -1; }
+        return new ASML_Int(v);
+    }
+    public ASML visit(If e) {
+        Exp bool = e.e1;
+        Boolean inv = false;
+        if (bool instanceof Var) { // Si le booléen n'est qu'une variable,
+            // On la compare avec 0
+            return new ASML_IfEq((ASML_Expr) new ASML_Var(((Var) bool).id),
+                                 (ASML_Expr) new ASML_Int(0),
+                                 (ASML_Body) e.e2.accept(this),
+                                 (ASML_Body) e.e3.accept(this));
+        }
+        while (bool instanceof Not) {
+            bool = ((Not) bool).e;
+            inv = !inv;
+        } // Si le booléen est inversé, on intervertit le then et le else.
+        ASML_Body thenn, ellse;
+        if (inv) { thenn = (ASML_Body) e.e3.accept(this); ellse = (ASML_Body) e.e2.accept(this); }
+        else     { thenn = (ASML_Body) e.e2.accept(this); ellse = (ASML_Body) e.e3.accept(this); }
+
+        if        (bool instanceof Eq) {
+            return new ASML_IfEq((ASML_Expr) ((Eq) bool).e1.accept(this),
+                                 (ASML_Expr) ((Eq) bool).e2.accept(this),
+                                 thenn,
+                                 ellse);
+        } else if (bool instanceof LE) {
+            return new ASML_IfLE((ASML_Expr) ((LE) bool).e1.accept(this),
+                                 (ASML_Expr) ((LE) bool).e2.accept(this),
+                                 thenn,
+                                 ellse);
+        } else { return null; }
+    }
     public ASML visit(Neg e) { return new ASML_Neg((ASML_Expr) e.e.accept(this)); }
     public ASML visit(Add e) {
         return new ASML_Add((ASML_Expr) e.e1.accept(this), (ASML_Expr) e.e2.accept(this)); /*
@@ -61,11 +103,9 @@ public class AstToASML implements ObjVisitor<ASML> {
     public ASML visit(Get e) { System.err.println("Cette version ne prend pas en compte les tableaux."); return null; }
     public ASML visit(Put e) { System.err.println("Cette version ne prend pas en compte les tableaux."); return null; }
 
-    public ASML visit(If e) { System.err.println("Cette version ne prend pas en compte les conditions."); return null; }
     public ASML visit(App e) { System.err.println("Cette version ne prend pas en compte les fonctions."); return null; }
 
     public ASML visit(Unit e) { System.err.println("Oops."); return null; }
-    public ASML visit(Bool e) { System.err.println("Oops."); return null; }
     public ASML visit(Float e) { System.err.println("Oops."); return null; }
     public ASML visit(Not e) { System.err.println("Oops."); return null; }
     public ASML visit(FNeg e) { System.err.println("Oops."); return null; }

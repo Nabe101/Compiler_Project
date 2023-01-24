@@ -30,7 +30,8 @@ public class Main {
               new Let(w, new TInt(), new Int(8),                   // let w:int = 8 in
               new Sub(new Var(z), new Var(w))))));                    // z-w
 
-      ASML a = e.accept(new AstToASML());
+      AstToASML converter = new AstToASML();
+      ASML a = converter.convert(e);
       a.print("out.asml");
 
       // Printing register allocation
