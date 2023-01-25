@@ -1,127 +1,139 @@
 import java.util.*;
 
 class PrintVisitor implements Visitor {
+    PrintStream out;
+
+    PrintVisitor() { out = System.out; }
+    PrintVisitor(String fileName) {
+        try {
+            out = new PrintStream(fileName);
+        } catch {
+            System.err.println("Impossible d'ouvrir le fichier "+filename+" en écriture.");
+            System.exit(1);
+        }
+    }
+
     public void visit(Unit e) {
-        System.out.print("()");
+        out.print("()");
     }
 
     public void visit(Bool e) {
-        System.out.print(e.b);
+        out.print(e.b);
     }
 
     public void visit(Int e) {
-        System.out.print(e.i);
+        out.print(e.i);
     }
 
     public void visit(Float e) {
         String s = String.format("%.2f", e.f);
-        System.out.print(s);
+        out.print(s);
     }
 
     public void visit(Not e) {
-        System.out.print("(not ");
+        out.print("(not ");
         e.e.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Neg e) {
-        System.out.print("(- ");
+        out.print("(- ");
         e.e.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Add e) {
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" + ");
+        out.print(" + ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Sub e) {
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" - ");
+        out.print(" - ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(FNeg e){
-        System.out.print("(-. ");
+        out.print("(-. ");
         e.e.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(FAdd e){
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" +. ");
+        out.print(" +. ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(FSub e){
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" -. ");
+        out.print(" -. ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(FMul e) {
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" *. ");
+        out.print(" *. ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(FDiv e){
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" /. ");
+        out.print(" /. ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Eq e){
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" = ");
+        out.print(" = ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(LE e){
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(" <= ");
+        out.print(" <= ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(If e){
-        System.out.print("(if ");
+        out.print("(if ");
         e.e1.accept(this);
-        System.out.print(" then ");
+        out.print(" then ");
         e.e2.accept(this);
-        System.out.print(" else ");
+        out.print(" else ");
         e.e3.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Let e) {
-        System.out.print("(let ");
-        System.out.print(e.id);
-        System.out.print(" = ");
+        out.print("(let ");
+        out.print(e.id);
+        out.print(" = ");
         e.e1.accept(this);
-        System.out.print(" in ");
+        out.print(" in ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Var e){
-        System.out.print(e.id);
+        out.print(e.id);
     }
 
 
@@ -131,9 +143,9 @@ class PrintVisitor implements Visitor {
             return;
         }
         Iterator<E> it = l.iterator();
-        System.out.print(it.next());
+        out.print(it.next());
         while (it.hasNext()) {
-            System.out.print(op + it.next());
+            out.print(op + it.next());
         }
     }
 
@@ -145,68 +157,68 @@ class PrintVisitor implements Visitor {
         Iterator<Exp> it = l.iterator();
         it.next().accept(this);
         while (it.hasNext()) {
-            System.out.print(op);
+            out.print(op);
             it.next().accept(this);
         }
     }
 
     public void visit(LetRec e){
-        System.out.print("(let rec " + e.fd.id + " ");
+        out.print("(let rec " + e.fd.id + " ");
         printInfix(e.fd.args, " ");
-        System.out.print(" = ");
+        out.print(" = ");
         e.fd.e.accept(this);
-        System.out.print(" in ");
+        out.print(" in ");
         e.e.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(App e){
-        System.out.print("(");
+        out.print("(");
         e.e.accept(this);
-        System.out.print(" ");
+        out.print(" ");
         printInfix2(e.es, " ");
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Tuple e){
-        System.out.print("(");
+        out.print("(");
         printInfix2(e.es, ", ");
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(LetTuple e){
-        System.out.print("(let (");
+        out.print("(let (");
         printInfix(e.ids, ", ");
-        System.out.print(") = ");
+        out.print(") = ");
         e.e1.accept(this);
-        System.out.print(" in ");
+        out.print(" in ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Array e){
-        System.out.print("(Array.create ");
+        out.print("(Array.create ");
         e.e1.accept(this);
-        System.out.print(" ");
+        out.print(" ");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Get e){
         e.e1.accept(this);
-        System.out.print(".(");
+        out.print(".(");
         e.e2.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 
     public void visit(Put e){
-        System.out.print("(");
+        out.print("(");
         e.e1.accept(this);
-        System.out.print(".(");
+        out.print(".(");
         e.e2.accept(this);
-        System.out.print(") <- ");
+        out.print(") <- ");
         e.e3.accept(this);
-        System.out.print(")");
+        out.print(")");
     }
 }
 
