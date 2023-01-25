@@ -27,15 +27,12 @@ public class ArmVisitor implements ASML_Visitor{
 	public void visit(ASML_Let a) {
 		a.expr.accept(this); //res dans r1
 		arm.setVar(a.ident.id, "1");
-		System.out.print(a.in);
 		a.in.accept(this);
-		System.out.print("****************");
 	}
 
 	@Override
 	public void visit(ASML_End a) {
-		// TODO Auto-generated method stub
-		
+		a.expr.accept(this);
 	}
 
 	@Override
@@ -105,7 +102,6 @@ public class ArmVisitor implements ASML_Visitor{
 
 	@Override
 	public void visit(ASML_Add a) {
-		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		a.a1.accept(this);
 		//le resultat est dans r1
 		String var = arm.newVar();//on save r1
