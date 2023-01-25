@@ -1,7 +1,11 @@
 
 public class ArmVisitor implements ASML_Visitor{
-	static ArmGen arm = ArmGen.creer();
-
+	
+	public ArmVisitor() {
+		ArmVisitor.arm = ArmGen.creer();
+	}
+	static ArmGen arm;
+	
 	@Override
 	public void visit(ASML_FloatLabel a) {
 		// TODO Auto-generated method stub
@@ -23,7 +27,9 @@ public class ArmVisitor implements ASML_Visitor{
 	public void visit(ASML_Let a) {
 		a.expr.accept(this); //res dans r1
 		arm.setVar(a.ident.id, "1");
+		System.out.print(a.in);
 		a.in.accept(this);
+		System.out.print("****************");
 	}
 
 	@Override
@@ -99,6 +105,7 @@ public class ArmVisitor implements ASML_Visitor{
 
 	@Override
 	public void visit(ASML_Add a) {
+		System.out.print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		a.a1.accept(this);
 		//le resultat est dans r1
 		String var = arm.newVar();//on save r1
@@ -129,8 +136,24 @@ public class ArmVisitor implements ASML_Visitor{
 
 	@Override
 	public void visit(ASML_IfEq a) {
-		// TODO Auto-generated method stub
+		a.e2.accept(this);
+		String var = arm.newVar();//on save r1
+		a.e1.accept(this);
+		//res dans r1
+		arm.getVar(var, 2);//on met dans r2 notre valeur save
+		arm.cmp();
+		int nb = arm.eq();
+		String label1 = "label"+Integer.toString(nb);
+		String label2 = "label"+Integer.toString(nb+1);
+		String label3 = "label"+Integer.toString(nb+2);
+		arm.newLabel(label1);
+		a.thn.accept(this);
+		arm.bl(label3);
 		
+		arm.newLabel(label2);
+		a.els.accept(this);
+		
+		arm.newLabel(label3);
 	}
 
 	@Override
@@ -183,8 +206,7 @@ public class ArmVisitor implements ASML_Visitor{
 
 	@Override
 	public void visit(ASML_Var a) {
-		// TODO Auto-generated method stub
-		
+		arm.getVar(a.name.id, 1);
 	}
 	
 
