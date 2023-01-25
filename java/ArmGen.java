@@ -4,38 +4,38 @@ import java.io.UnsupportedEncodingException;
 import java.util.Stack;
 
 public class ArmGen {
-	public ArmGen(String nom, RegAllocation reg){
-		this.nom = "../ARM/"+nom.substring(11, nom.length()-2) + "s" ;
-		System.out.print(this.nom);
+	public ArmGen(String nom, RegAllocation reg) throws FileNotFoundException, UnsupportedEncodingException {
+		this.nom = "../ARM/"+nom.substring(0, nom.length()) + ".s" ;
 		this.reg=reg;
 		this.stack= new Stack<String>();
-		this.stack.push("_");
+		this.stack.push("()");
 		this.numLabel=0;
 		this.txt = "	.text\n"
 				+ "	.global _start\n"
 				+ "_start:\n";
+		this.label="";
 		this.numVariable = 0;
-		ArmGen.arm = this;
-	}
-	
-	static ArmGen creer() {
-		return ArmGen.arm;
-	}
-	
-	public void close() throws FileNotFoundException, UnsupportedEncodingException{
+		
 		PrintWriter writer = new PrintWriter(this.nom, "UTF-8");
+		ArmGen.arm = this;
+		this.test_var();
 		writer.println(this.txt);
 		writer.println("bl	_min_caml_exit");
+		writer.println(this.label);		
 		writer.close();
 	}
 	
-	static boolean exist;//singleton
+	static ArmGen creer() {
+		return arm;
+	}
+	
 	String nom;
 	Stack<String> stack;//pile d'appel
 	RegAllocation reg;
 	int numLabel; //label counter
 	int numVariable;
 	String txt;
+	String label;//on met tout les label a la fin
 	public static ArmGen arm;	
 	
 	void test_var() {
@@ -56,7 +56,7 @@ public class ArmGen {
 	}
 	void print(String s) {
 		String la = "L" + Integer.toString(this.numLabel);
-		this.txt += la + ":\n"
+		this.label += la + ":\n"
 				+ ".asciz	\""+s+"\"\n";
 		this.txt +="	ldr	r0, ="+la+"\n"
 				+ "	bl _min_caml_print_string\n";
@@ -101,7 +101,7 @@ public class ArmGen {
 		String varName = "tmp" + Integer.toString(this.numVariable);
 		this.numVariable++;
 		this.reg.put(this.stack.peek().toString(), varName);
-		Storage str = this.reg.get(this.stack.peek(), varName);
+		Storage str = this.reg.get(this.stack.peek().toString(), varName);
 		
 		this.txt += "STR r1, [sp,#"+ Integer.toString(str.value)+"]\n";
 		return varName;
@@ -120,30 +120,6 @@ public class ArmGen {
 	
 	public void add() {
 		this.txt += "add r1, r1, r2\n";
-	}
-	public void sub() {
-		this.txt += "sub r1, r1, r2\n";
-	}
-	
-	public void cmp() {
-		this.txt += "cmp r1, r2\n";
-	}
-	
-	public int eq() {
-		String label1 = "label"+Integer.toString(this.numLabel);
-		String label2 = "label"+Integer.toString(this.numLabel+1);
-		this.numLabel+=3;
-		this.txt += "beq "+ label1 +"\n"
-				+ "b" + label2 + "\n";
-		return this.numLabel-2;
-	}
-	
-	public void newLabel(String label) {
-		this.txt += label + ":\n";
-	}
-	
-	public void bl(String label) {
-		this.txt += "bl " + label + "\n";
 	}
 	
 	

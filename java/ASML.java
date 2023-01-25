@@ -482,13 +482,14 @@ class ASML_Call extends ASML_Expr {
     String label;
     List<ASML_Expr> args;
 
-    ASML_Call(String l, List<Id> a) { label = l; args = a; }
+    ASML_Call(String l, List<ASML_Expr> a) { label = l; args = a; }
 
     void print(PrintStream out, int indent) {
         out.print("call "+label);
-        Iterator<Id> it = args.iterator();
+        Iterator<ASML_Expr> it = args.iterator();
         while (it.hasNext()) {
-            out.print(" "+it.next().toString());
+            it.next().print(out, indent);
+            out.print(" ");
         }
     }
 
