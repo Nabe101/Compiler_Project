@@ -16,12 +16,15 @@ public class Main {
       System.out.println(); // 
       			
       ASML a = expression.accept(new AstToASML());
-      a.print("out.asml");
+      System.out.println("\n------ ASML ------");
+      a.print(null);
+      System.out.println();
 
       // Printing register allocation
       RegAllocVisitor visitReg = new RegAllocVisitor();
       RegAllocation regAll = a.accept(visitReg);
-      regAll.print();
+      /*System.out.println("\n------ Register allocation ------");
+      regAll.print();*/
       ArmGen arm = new ArmGen(argv[0], regAll);
       ArmVisitor visitArm = new ArmVisitor();
       a.accept(visitArm);

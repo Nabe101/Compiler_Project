@@ -7,8 +7,8 @@ abstract class ASML {
         try {
             print(new PrintStream(fileName), 0);
         } catch (Exception e) {
-            System.err.println(e);
-            //print(System.out);
+            //System.err.println(e);
+            print(System.out, 0);
         }
     }
 
