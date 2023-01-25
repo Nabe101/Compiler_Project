@@ -1,3 +1,6 @@
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class AstToASML implements ObjVisitor<ASML> {
     AstToASML() {}
@@ -89,11 +92,25 @@ public class AstToASML implements ObjVisitor<ASML> {
             return null;
         }*/
     }
+    public ASML visit(App e) {
+        String label = null;
+        try {
+            label = ((Var) e).toString();
+        } catch (Exception ex) {
+            System.err.println("Cette version ne prend pas en compte les définitions de fonctions."); System.exit(1);
+        }
+        List<ASML_Expr> args = new LinkedList<>();
+        Iterator<Exp> it = e.es.iterator();
+        while (it.hasNext()) {
+            args.add((ASML_Expr) it.next().accept(this));
+        }
+        return new ASML_Call(label, args);
+    }
     
 
     // En Standby...
     public ASML visit(LetRec e) {
-        System.err.println("Cette version ne prend pas en compte les fonctions."); return null; /*
+        System.err.println("Cette version ne prend pas en compte les définitions de fonctions."); return null; /*
         try {
             ASML_Body corps = (ASML_Body) e.fd.e.accept(this);
             ASML_Fundefs suite = (ASML_Fundefs) e.e.accept(this);
@@ -111,8 +128,6 @@ public class AstToASML implements ObjVisitor<ASML> {
     public ASML visit(Array e) { System.err.println("Cette version ne prend pas en compte les tableaux."); return null; }
     public ASML visit(Get e) { System.err.println("Cette version ne prend pas en compte les tableaux."); return null; }
     public ASML visit(Put e) { System.err.println("Cette version ne prend pas en compte les tableaux."); return null; }
-
-    public ASML visit(App e) { System.err.println("Cette version ne prend pas en compte les fonctions."); return null; }
 
     public ASML visit(Unit e) { System.err.println("Oops."); return null; }
     public ASML visit(Float e) { System.err.println("Oops."); return null; }

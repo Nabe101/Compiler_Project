@@ -46,13 +46,8 @@ class ASML_FloatLabel extends ASML_Fundefs {
         in.print(out, indent);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Fun extends ASML_Fundefs {
@@ -75,13 +70,8 @@ class ASML_Fun extends ASML_Fundefs {
         in.print(out, indent);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Main extends ASML_Fundefs {
@@ -94,13 +84,8 @@ class ASML_Main extends ASML_Fundefs {
         body.print(out, indent+1);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 
@@ -128,13 +113,8 @@ class ASML_Let extends ASML_Body {
         in.print(out, indent);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_End extends ASML_Body {
@@ -147,13 +127,8 @@ class ASML_End extends ASML_Body {
         expr.print(out, indent);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 
@@ -174,13 +149,8 @@ class ASML_Nop extends ASML_Expr {
         out.print("nop");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Int extends ASML_Expr {
@@ -192,13 +162,8 @@ class ASML_Int extends ASML_Expr {
         out.print(value);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Var extends ASML_Expr {
@@ -210,13 +175,8 @@ class ASML_Var extends ASML_Expr {
         out.print(name.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_New extends ASML_Expr {
@@ -228,13 +188,8 @@ class ASML_New extends ASML_Expr {
         out.print("new "+i.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Ident extends ASML_Expr {
@@ -246,13 +201,8 @@ class ASML_Ident extends ASML_Expr {
         out.print(i.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Label extends ASML_Expr {
@@ -264,13 +214,8 @@ class ASML_Label extends ASML_Expr {
         out.print(label);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Neg extends ASML_Expr {
@@ -284,13 +229,8 @@ class ASML_Neg extends ASML_Expr {
         out.print(")");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Add extends ASML_Expr {
@@ -306,13 +246,8 @@ class ASML_Add extends ASML_Expr {
         out.print(")");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Sub extends ASML_Expr {
@@ -328,13 +263,8 @@ class ASML_Sub extends ASML_Expr {
         out.print(")");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Fneg extends ASML_Expr {
@@ -346,13 +276,8 @@ class ASML_Fneg extends ASML_Expr {
         out.print("fneg "+i.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Fadd extends ASML_Expr {
@@ -364,13 +289,8 @@ class ASML_Fadd extends ASML_Expr {
         out.print("fadd "+i1.toString()+i2.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Fsub extends ASML_Expr {
@@ -382,13 +302,8 @@ class ASML_Fsub extends ASML_Expr {
         out.print("fsub "+i1.toString()+i2.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Fmul extends ASML_Expr {
@@ -400,13 +315,8 @@ class ASML_Fmul extends ASML_Expr {
         out.print("fmul "+i1.toString()+i2.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Fdiv extends ASML_Expr {
@@ -418,13 +328,8 @@ class ASML_Fdiv extends ASML_Expr {
         out.print("fdiv "+i1.toString()+" "+i2.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Load extends ASML_Expr {
@@ -439,13 +344,8 @@ class ASML_Load extends ASML_Expr {
         out.print(")");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Store extends ASML_Expr {
@@ -460,13 +360,8 @@ class ASML_Store extends ASML_Expr {
         out.print(") <- "+val.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_IfEq extends ASML_Expr {
@@ -491,13 +386,8 @@ class ASML_IfEq extends ASML_Expr {
         out.println(")");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_IfLE extends ASML_Expr {
@@ -522,13 +412,8 @@ class ASML_IfLE extends ASML_Expr {
         out.println(")");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_IfGE extends ASML_Expr {
@@ -553,13 +438,8 @@ class ASML_IfGE extends ASML_Expr {
         out.println(")");
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_IfFEq extends ASML_Expr {
@@ -576,13 +456,8 @@ class ASML_IfFEq extends ASML_Expr {
         els.print(out, indent+1);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_IfFLE extends ASML_Expr {
@@ -599,18 +474,13 @@ class ASML_IfFLE extends ASML_Expr {
         els.print(out, indent+1);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Call extends ASML_Expr {
     String label;
-    List<Id> args;
+    List<ASML_Expr> args;
 
     ASML_Call(String l, List<Id> a) { label = l; args = a; }
 
@@ -622,13 +492,8 @@ class ASML_Call extends ASML_Expr {
         }
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_CallCls extends ASML_Expr {
@@ -645,13 +510,8 @@ class ASML_CallCls extends ASML_Expr {
         }
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 
@@ -673,13 +533,8 @@ class ASML_Id extends ASML_IdOrIm {
         out.print(i.toString());
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
 
 class ASML_Im extends ASML_IdOrIm {
@@ -691,11 +546,6 @@ class ASML_Im extends ASML_IdOrIm {
         out.print(i);
     }
 
-    <E> E accept(ASML_ObjVisitor<E> v) {
-        return v.visit(this);
-    }
-
-    void accept(ASML_Visitor v) {
-        v.visit(this);
-    }
+    <E> E accept(ASML_ObjVisitor<E> v) { return v.visit(this); }
+    void accept(ASML_Visitor v) { v.visit(this); }
 }
