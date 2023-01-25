@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 public class AlphaVisitor implements Visitor {
@@ -102,7 +103,12 @@ public class AlphaVisitor implements Visitor {
     	;
     }
 	public void visit(App e) {
-    	;
+    	Iterator<Exp> it = e.es.iterator();
+		Exp ee;
+		while (it.hasNext()) {
+			ee = it.next();
+			ee.accept(this);
+		}
     }
 	public void visit(Tuple e) {
     	;
