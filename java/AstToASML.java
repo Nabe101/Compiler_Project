@@ -95,7 +95,7 @@ public class AstToASML implements ObjVisitor<ASML> {
     public ASML visit(App e) {
         String label = null;
         try {
-            label = ((Var) e.e).toString();
+            label = ((Var) e.e).id.toString();
         } catch (Exception ex) {
             System.err.println("Cette version ne prend pas en compte les définitions de fonctions."); System.exit(1);
         }
