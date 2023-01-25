@@ -7,7 +7,7 @@ abstract class ASML {
         try {
             print(new PrintStream(fileName), 0);
         } catch (Exception e) {
-            System.err.println("Impossible d'ouvrir le fichier "+filename+" en écriture.");
+            System.err.println("Impossible d'ouvrir le fichier "+fileName+" en écriture.");
             System.exit(1);
         }
     }

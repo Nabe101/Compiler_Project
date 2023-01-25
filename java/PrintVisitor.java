@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.PrintStream;
 
 class PrintVisitor implements Visitor {
     PrintStream out;
@@ -7,8 +8,8 @@ class PrintVisitor implements Visitor {
     PrintVisitor(String fileName) {
         try {
             out = new PrintStream(fileName);
-        } catch {
-            System.err.println("Impossible d'ouvrir le fichier "+filename+" en écriture.");
+        } catch(Exception ex) {
+            System.err.println("Impossible d'ouvrir le fichier "+fileName+" en écriture.");
             System.exit(1);
         }
     }
@@ -138,7 +139,7 @@ class PrintVisitor implements Visitor {
 
 
     // print sequence of identifiers 
-    static <E> void printInfix(List<E> l, String op) {
+    <E> void printInfix(List<E> l, String op) {
         if (l.isEmpty()) {
             return;
         }

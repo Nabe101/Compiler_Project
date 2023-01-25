@@ -48,8 +48,15 @@ public class Main {
       }
       i++;
     }
+
+    if(input==null) {
+      System.err.println("Aucun fichier d'entrée renseigné.");
+      System.exit(1);
+    }
   }
-  static public void main(String argv[]) {    
+  static public void main(String argv[]) {   
+    argsParse(argv);
+
     try {
       Parser p = new Parser(new Lexer(new FileReader(input)));
       Exp expression = (Exp) p.parse().value;      
