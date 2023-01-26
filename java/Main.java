@@ -61,7 +61,15 @@ public class Main {
       Parser p = new Parser(new Lexer(new FileReader(input)));
       Exp expression = (Exp) p.parse().value;      
       assert (expression != null);
-
+      
+      GenEquations equations = new GenEquations();
+      equations.GenEquation(equations.env, expression, new TUnit());
+      System.out.println(equations.env);
+      //System.out.println(equations.SetEquations);
+      equations.printSetEquations(equations.SetEquations);
+      Equations testEq = new Equations(new TInt(), new TUnit());
+      testEq.printType(testEq);
+      
       // Alpha-conversion
       expression.accept(new AlphaVisitor());
 
