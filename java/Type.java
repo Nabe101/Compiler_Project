@@ -6,15 +6,45 @@ abstract class Type {
     
 }
 
-class TUnit extends Type { }
+class TUnit extends Type { 
 
-class TBool extends Type { }
+    @Override
+    public String toString() {
+        return "Unit"; 
+    }
+}
 
-class TInt extends Type { }
+class TBool extends Type { 
+    @Override
+    public String toString() {
+        return "Bool"; 
+    }
+}
 
-class TFloat extends Type { }
+class TInt extends Type {
+    @Override
+    public String toString() {
+        return "Int"; 
+    }
+ }
+
+class TFloat extends Type { 
+    @Override
+    public String toString() {
+        return "Float"; 
+    }
+}
 
 class TFun extends Type { }
+
+
+
+class TString extends Type{
+    @Override
+    public String toString() {
+        return "String"; 
+    }
+}
 
 class TTuple extends Type { }
 
