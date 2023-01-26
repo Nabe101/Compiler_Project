@@ -52,16 +52,14 @@ public class NestedLetVisitor implements ObjVisitor<Exp> {
     }
     public Exp visit(Let e){
     	e.e1.accept(this);
-   		e.e2.accept(this);
-   		try {
-   			System.out.println("Entering try catch");
+   	e.e2.accept(this);
+   	try {
     		final Let x = (Let)e.e1; // risque cast exception
     		final Let tmp = new Let(e.id, e.t, x.e2, e.e2);
     		final Let retour = new Let(x.id, x.t, x.e1, tmp);
     		return retour;
     	}
     	catch (ClassCastException exc) {
-    		System.out.println(e.e1.getClass());
     		return e;
     	}
     }
