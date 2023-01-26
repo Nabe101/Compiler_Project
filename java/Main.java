@@ -67,8 +67,6 @@ public class Main {
       System.out.println(equations.env);
       //System.out.println(equations.SetEquations);
       equations.printSetEquations(equations.SetEquations);
-      Equations testEq = new Equations(new TInt(), new TUnit());
-      testEq.printType(testEq);
       
       // Alpha-conversion
       expression.accept(new AlphaVisitor());
