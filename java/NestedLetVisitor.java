@@ -13,9 +13,7 @@ public class NestedLetVisitor implements ObjVisitor<Exp> {
     	return (Exp)e;
     }
     public Exp visit(Not e){
-    	Exp a = e.e.accept(this);
-    	Not b = new Not((Exp)a);
-    	return (Exp)b;
+    	return new Not(e.e.accept(this));
     }
     public Exp visit(Neg e){
     	return new Neg(e.e.accept(this));
@@ -51,15 +49,18 @@ public class NestedLetVisitor implements ObjVisitor<Exp> {
     	return new If(e.e1.accept(this), e.e2.accept(this), e.e3.accept(this));
     }
     public Exp visit(Let e){
-    	e.e1.accept(this);
-   	e.e2.accept(this);
+    	Exp a = e.e1.accept(this); //e1'
+   	Exp b = e.e2.accept(this); //e2'
    	try {
-    		final Let x = (Let)e.e1; // risque cast exception
-    		final Let tmp = new Let(e.id, e.t, x.e2, e.e2);
-    		final Let retour = new Let(x.id, x.t, x.e1, tmp);
-    		return retour;
+    		Let y = (Let)a; //let ... in e
+    		Let tmp = new Let(e.id, e.t, y.e2, b); //let x = e in e2' : récursion jusqu'à la fin
+    		try {tmp = reduc(tmp);}
+        	catch (ClassCastException except) {;}
+        Let retour = new Let(y.id, y.t, y.e1, tmp); //let ... in tmp
+    	return retour;
     	}
     	catch (ClassCastException exc) {
+            e.accept(new PrintVisitor());
     		return e;
     	}
     }
@@ -86,5 +87,22 @@ public class NestedLetVisitor implements ObjVisitor<Exp> {
     }
     public Exp visit(Put e){
     	return new Put(e.e1, e.e2, e.e3);
+    }
+
+    Let reduc(Let y) {
+        y.accept(new PrintVisitor()); // 2 fois le 3 avec y = y2.e1 ?
+        try {
+            Let x1 = y;
+            Let x = (Let)x1.e1;
+            Exp z = x1.e2;
+            Let tmp = new Let(x1.id, x1.t, x.e2, z); //let x = e in e2' : récursion jusqu'à la fin
+            try {tmp = reduc(tmp);}
+            catch (ClassCastException except) {;}
+            Let retour = new Let(x.id, x.t, x.e1, tmp); //let ... in tmp
+            return retour;
+        }
+        catch (ClassCastException exc) {
+  		return y;
+    	}
     }
 }
