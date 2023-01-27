@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class ArmGen {
 	public ArmGen(String nom, RegAllocation reg){
-		this.nom = nom;
+		this.nom = "../ARM/"+nom.substring(9, nom.length()-2) + "s" ;
 		System.out.print(this.nom);
 		this.reg=reg;
 		this.stack= new Stack<String>();
