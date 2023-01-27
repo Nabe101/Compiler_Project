@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class ArmGen {
 	public ArmGen(String nom, RegAllocation reg){
-		this.nom = "../ARM/"+nom.substring(0, nom.length()) + ".s" ;
+		this.nom = nom;
 		System.out.print(this.nom);
 		this.reg=reg;
 		this.stack= new Stack<String>();
@@ -135,8 +135,8 @@ public class ArmGen {
 		String label2 = "label"+Integer.toString(this.numLabel+1);
 		this.numLabel+=3;
 		this.txt += "beq "+ label1 +"\n"
-				+ "b" + label2 + "\n";
-		return this.numLabel-2;
+				+ "b " + label2 + "\n";
+		return this.numLabel-3;
 	}
 	
 	public void newLabel(String label) {
@@ -152,8 +152,8 @@ public class ArmGen {
 		String label2 = "label"+Integer.toString(this.numLabel+1);
 		this.numLabel+=3;
 		this.txt += "ble "+ label1 +"\n"
-				+ "b" + label2 + "\n";
-		return this.numLabel-2;
+				+ "b " + label2 + "\n";
+		return this.numLabel-3;
 	}
 	
 	public int ge() {
@@ -161,8 +161,8 @@ public class ArmGen {
 		String label2 = "label"+Integer.toString(this.numLabel+1);
 		this.numLabel+=3;
 		this.txt += "bge "+ label1 +"\n"
-				+ "b" + label2 + "\n";
-		return this.numLabel-2;
+				+ "b " + label2 + "\n";
+		return this.numLabel-3;
 	}
 	
 	
