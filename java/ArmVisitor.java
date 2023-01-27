@@ -114,9 +114,14 @@ public class ArmVisitor implements ASML_Visitor{
 
 	@Override
 	public void visit(ASML_Sub a) {
-		// TODO Auto-generated method stub
-		
-	}
+		a.a2.accept(this);
+		//le resultat est dans r1
+		String var = arm.newVar();//on save r1
+		a.a1.accept(this);
+		//res dans r1
+		arm.getVar(var, 2);//on met dans r2 notre valeur save
+		arm.sub();
+		}
 
 	@Override
 	public void visit(ASML_Load a) {
@@ -154,14 +159,45 @@ public class ArmVisitor implements ASML_Visitor{
 
 	@Override
 	public void visit(ASML_IfLE a) {
-		// TODO Auto-generated method stub
+		a.e2.accept(this);
+		String var = arm.newVar();
+		a.e1.accept(this);
+		arm.getVar(var, 2);
+		arm.cmp();
+		int nb = arm.le();
+		String label1 = "label"+Integer.toString(nb);
+		String label2 = "label"+Integer.toString(nb+1);
+		String label3 = "label"+Integer.toString(nb+2);
+		arm.newLabel(label1);
+		a.thn.accept(this);
+		arm.bl(label3);
 		
+		arm.newLabel(label2);
+		a.els.accept(this);
+		
+		arm.newLabel(label3);		
 	}
 
 	@Override
 	public void visit(ASML_IfGE a) {
-		// TODO Auto-generated method stub
+		a.e2.accept(this);
+		String var = arm.newVar();//on save r1
+		a.e1.accept(this);
+		//res dans r1
+		arm.getVar(var, 2);//on met dans r2 notre valeur save
+		arm.cmp();
+		int nb = arm.ge();
+		String label1 = "label"+Integer.toString(nb);
+		String label2 = "label"+Integer.toString(nb+1);
+		String label3 = "label"+Integer.toString(nb+2);
+		arm.newLabel(label1);
+		a.thn.accept(this);
+		arm.bl(label3);
 		
+		arm.newLabel(label2);
+		a.els.accept(this);
+		
+		arm.newLabel(label3);		
 	}
 
 	@Override
@@ -178,8 +214,7 @@ public class ArmVisitor implements ASML_Visitor{
 
 	@Override
 	public void visit(ASML_Call a) {
-		// TODO Auto-generated method stub
-		
+		arm.print();
 	}
 
 	@Override
